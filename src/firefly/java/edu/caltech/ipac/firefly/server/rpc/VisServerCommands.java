@@ -326,16 +326,6 @@ public class VisServerCommands {
         }
     }
 
-    public static class AddSavedRequest extends ServCommand {
-
-        public String doCommand(SrvParam sp) throws IllegalArgumentException {
-            String saveKey = sp.getRequired(ServerParams.SAVE_KEY);
-            WebPlotRequest req= WebPlotRequest.parse(sp.getRequired(ServerParams.REQUEST));
-            VisServerOps.addSavedRequest(saveKey,req);
-            return "";
-        }
-    }
-
     public static class GetMasterImageData extends ServCommand {
 
         public String doCommand(SrvParam sp) throws IllegalArgumentException {

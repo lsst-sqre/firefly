@@ -19,15 +19,12 @@ import edu.caltech.ipac.util.StringUtils;
 import edu.caltech.ipac.util.cache.Cache;
 import edu.caltech.ipac.util.cache.CacheKey;
 import edu.caltech.ipac.util.cache.StringKey;
-import edu.caltech.ipac.util.download.FailedRequestException;
 import edu.caltech.ipac.visualize.draw.FixedObjectGroup;
 import edu.caltech.ipac.visualize.draw.GridLayer;
 import edu.caltech.ipac.visualize.draw.ScalableObjectPosition;
 import edu.caltech.ipac.visualize.draw.VectorObject;
 import edu.caltech.ipac.visualize.plot.ActiveFitsReadGroup;
 import edu.caltech.ipac.visualize.plot.Circle;
-import edu.caltech.ipac.visualize.plot.plotdata.FitsRead;
-import edu.caltech.ipac.visualize.plot.plotdata.FitsReadFactory;
 import edu.caltech.ipac.visualize.plot.ImageMask;
 import edu.caltech.ipac.visualize.plot.ImagePlot;
 import edu.caltech.ipac.visualize.plot.PlotGroup;
@@ -43,7 +40,6 @@ import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -448,23 +444,23 @@ public class PlotServUtils {
     }
 
 
-    static File createHistImage(JComponent c,
-                                Icon hd,
-                                File dir,
-                                Color bgColor,
-                                String fname) throws IOException {
-        int w= c.getWidth();
-        int h= c.getHeight();
-        BufferedImage cHistImage     = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2= cHistImage.createGraphics();
-        g2.setColor(bgColor);
-        g2.fillRect(0, 0, w, h);
-        hd.paintIcon(c, g2, 0, 0);
-        File f= new File(dir,fname);
-        writeImage(cHistImage, f);
-        return f;
-    }
-
+//    static File createHistImage(JComponent c,
+//                                Icon hd,
+//                                File dir,
+//                                Color bgColor,
+//                                String fname) throws IOException {
+//        int w= c.getWidth();
+//        int h= c.getHeight();
+//        BufferedImage cHistImage     = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+//        Graphics2D g2= cHistImage.createGraphics();
+//        g2.setColor(bgColor);
+//        g2.fillRect(0, 0, w, h);
+//        hd.paintIcon(c, g2, 0, 0);
+//        File f= new File(dir,fname);
+//        writeImage(cHistImage, f);
+//        return f;
+//    }
+//
     private static void writeImage(BufferedImage image, File f) throws IOException {
         OutputStream chistOut= new BufferedOutputStream( new FileOutputStream(f),4096);
         Iterator writers = ImageIO.getImageWritersByFormatName("png");
@@ -594,38 +590,38 @@ public class PlotServUtils {
         return masksList.toArray(new ImageMask[masksList.size()]);
     }
 
-    public static FitsRead[] createBlankFITS(WebPlotRequest r) throws FailedRequestException, IOException {
-        FitsRead retval[];
-        Circle c=PlotServUtils.getRequestArea(r);
-        if (c!=null) {
-            int w= r.getBlankPlotWidth();
-            int h= r.getBlankPlotHeight();
-            if (w>0 && h>0) {
-                float asScale= r.getBlankArcsecPerPix();
-                if (asScale>0) {
-                    double degScale= asScale/3600.0;
-                    Fits blankFits = BlankFITS.createBlankFITS(c.getCenter(), w, h, degScale);
-                    try {
-                        retval = FitsReadFactory.createFitsReadArray(blankFits);
-                    } catch (FitsException e) {
-                        throw new FailedRequestException("Could not create blank image", "FITS read could not be created",e);
-                    } finally {
-                        if (blankFits.getStream()!=null) blankFits.getStream().close();
-                    }
-                }
-                else {
-                    throw new FailedRequestException("Blank image BlankArcsecPerPix must be greater than 0.");
-                }
-            }
-            else {
-                throw new FailedRequestException("Blank image width and height must both be greater than 0.");
-            }
-        }
-        else {
-            throw new FailedRequestException("Blank image requires a center position");
-        }
-        return retval;
-    }
+//    public static FitsRead[] createBlankFITS(WebPlotRequest r) throws FailedRequestException, IOException {
+//        FitsRead retval[];
+//        Circle c=PlotServUtils.getRequestArea(r);
+//        if (c!=null) {
+//            int w= r.getBlankPlotWidth();
+//            int h= r.getBlankPlotHeight();
+//            if (w>0 && h>0) {
+//                float asScale= r.getBlankArcsecPerPix();
+//                if (asScale>0) {
+//                    double degScale= asScale/3600.0;
+//                    Fits blankFits = BlankFITS.createBlankFITS(c.getCenter(), w, h, degScale);
+//                    try {
+//                        retval = FitsReadFactory.createFitsReadArray(blankFits);
+//                    } catch (FitsException e) {
+//                        throw new FailedRequestException("Could not create blank image", "FITS read could not be created",e);
+//                    } finally {
+//                        if (blankFits.getStream()!=null) blankFits.getStream().close();
+//                    }
+//                }
+//                else {
+//                    throw new FailedRequestException("Blank image BlankArcsecPerPix must be greater than 0.");
+//                }
+//            }
+//            else {
+//                throw new FailedRequestException("Blank image width and height must both be greater than 0.");
+//            }
+//        }
+//        else {
+//            throw new FailedRequestException("Blank image requires a center position");
+//        }
+//        return retval;
+//    }
 
     private static Color parseRGB(String color) {
         String rgb = "rgb";

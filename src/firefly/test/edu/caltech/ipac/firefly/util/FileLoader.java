@@ -61,20 +61,20 @@ public class FileLoader {
 
     }
 
-    public static FitsRead[] loadFitsReadArray(Class cls, String fitsFile)  {
-
-        try {
-            String inFitsName = getDataPath(cls) + fitsFile;
-
-            Fits fits = new Fits(inFitsName);
-            return FitsReadFactory.createFitsReadArray(fits);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-
-    }
+//    public static FitsRead[] loadFitsReadArray(Class cls, String fitsFile)  {
+//
+//        try {
+//            String inFitsName = getDataPath(cls) + fitsFile;
+//
+//            Fits fits = new Fits(inFitsName);
+//            return FitsReadFactory.createFitsReadArray(fits);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//    }
 
     public static Fits loadFits(Class cls, String fitsFile)  {
 
